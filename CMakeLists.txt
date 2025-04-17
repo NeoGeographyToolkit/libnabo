@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.15)
 
 set(LIB_NAME nabo)
 project("lib${LIB_NAME}")
@@ -49,16 +49,14 @@ if(MSVC AND (MSVC_VERSION LESS 1600))
 endif(MSVC AND (MSVC_VERSION LESS 1600))
 
 # openmp
-#if (NOT APPLE OR NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm64")
-  find_package(OpenMP)
-  if (OPENMP_FOUND)
-    add_definitions(-fopenmp -DHAVE_OPENMP)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    if (CMAKE_COMPILER_IS_GNUCC)
-      set(EXTRA_LIBS ${EXTRA_LIBS} gomp)
-    endif(CMAKE_COMPILER_IS_GNUCC)
-  endif(OPENMP_FOUND)
-#endif()
+find_package(OpenMP)
+if (OPENMP_FOUND)
+  add_definitions(-fopenmp -DHAVE_OPENMP)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  if (CMAKE_COMPILER_IS_GNUCC)
+    set(EXTRA_LIBS ${EXTRA_LIBS} gomp)
+  endif(CMAKE_COMPILER_IS_GNUCC)
+endif(OPENMP_FOUND)
 
 # eigen 2 or 3
 find_path(EIGEN_INCLUDE_DIR Eigen/Core
