@@ -49,7 +49,7 @@ if(MSVC AND (MSVC_VERSION LESS 1600))
 endif(MSVC AND (MSVC_VERSION LESS 1600))
 
 # openmp
-if (NOT APPLE OR NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm64")
+#if (NOT APPLE OR NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm64")
   find_package(OpenMP)
   if (OPENMP_FOUND)
     add_definitions(-fopenmp -DHAVE_OPENMP)
@@ -58,7 +58,7 @@ if (NOT APPLE OR NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm64")
       set(EXTRA_LIBS ${EXTRA_LIBS} gomp)
     endif(CMAKE_COMPILER_IS_GNUCC)
   endif(OPENMP_FOUND)
-endif()
+#endif()
 
 # eigen 2 or 3
 find_path(EIGEN_INCLUDE_DIR Eigen/Core
