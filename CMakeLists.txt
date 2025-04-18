@@ -122,11 +122,13 @@ set_target_properties(${LIB_NAME} PROPERTIES VERSION "${PROJECT_VERSION}" SOVERS
 export(TARGETS ${LIB_NAME}
   FILE "${PROJECT_BINARY_DIR}/libnaboTargets.cmake")
 
+install(FILES nabo/nabo.h DESTINATION include/nabo)
+install(FILES README.md DESTINATION share/doc/${PROJECT_NAME})
+
 # # create doc before installing
 # set(DOC_INSTALL_TARGET "share/doc/${PROJECT_NAME}/api" CACHE STRING "Target where to install doxygen documentation")
 # add_dependencies(${LIB_NAME} doc)
-# install(FILES nabo/nabo.h DESTINATION include/nabo)
-# install(FILES README.md DESTINATION share/doc/${PROJECT_NAME})
+
 # if (DOXYGEN_FOUND)
 # 	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html DESTINATION ${DOC_INSTALL_TARGET})
 # endif(DOXYGEN_FOUND)
