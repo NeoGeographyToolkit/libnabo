@@ -3,6 +3,12 @@ cmake_minimum_required(VERSION 3.15)
 set(LIB_NAME nabo)
 project("lib${LIB_NAME}")
 
+# TODO(oalexan1): These need revisiting.
+set(CMAKE_CXX_STANDARD 11)
+
+set(CMAKE_BUILD_TYPE "Release")
+add_definitions(-O3)
+
 # Extract version from header
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 execute_process(
@@ -16,24 +22,6 @@ if (NOT GREP_VERSION_RESULT EQUAL 0)
 	message(SEND_ERROR "Cannot grep version number: ${GREP_VERSION_RESULT}")
 endif (NOT GREP_VERSION_RESULT EQUAL 0)
 string(REGEX REPLACE ".*\"(.*)\".*" "\\1" PROJECT_VERSION "${PROJECT_VERSION}" )
-
-if (NOT CMAKE_BUILD_TYPE)
-  message("-- No build type specified; defaulting to CMAKE_BUILD_TYPE=Release.")
-  set(CMAKE_BUILD_TYPE Release CACHE STRING
-    "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
-    FORCE)
-else (NOT CMAKE_BUILD_TYPE)
-  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    message("\n=================================================================================")
-    message("\n-- Build type: Debug. Performance will be terrible!")
-    message("-- Add -DCMAKE_BUILD_TYPE=Release to the CMake command line to get an optimized build.")
-    message("\n=================================================================================")
-  endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
-endif (NOT CMAKE_BUILD_TYPE)
-
-if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-  add_definitions(-O3)
-endif(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 # Documentation
 #set(DOXYFILE_LATEX false)
