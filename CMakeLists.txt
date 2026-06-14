@@ -107,6 +107,18 @@ else(SHARED_LIBS)
 endif(SHARED_LIBS)
 set_target_properties(${LIB_NAME} PROPERTIES VERSION "${PROJECT_VERSION}" SOVERSION 1)
 
+# On macOS, CMake's install step edits the library with install_name_tool,
+# which invalidates its code signature; recent macOS then refuses to load it.
+# Re-sign ad-hoc after install. No-op on Linux.
+if (APPLE)
+  install(CODE "
+    file(GLOB signlibs \"\${CMAKE_INSTALL_PREFIX}/lib/lib${LIB_NAME}*.dylib\")
+    foreach(f IN LISTS signlibs)
+      execute_process(COMMAND codesign --force --sign - \${f} ERROR_QUIET)
+    endforeach()
+  ")
+endif()
+
 export(TARGETS ${LIB_NAME}
   FILE "${PROJECT_BINARY_DIR}/libnaboTargets.cmake")
 
